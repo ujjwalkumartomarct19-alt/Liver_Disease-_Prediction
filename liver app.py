@@ -94,3 +94,67 @@ st.markdown("<div class='main-title'>Liver Disease Stage Prediction</div>", unsa
 st.write("### Provide the patient's test details below:")
 
 # ------------------------------------------------------
+# INPUT FORM LAYOUT
+# ------------------------------------------------------
+col1, col2 = st.columns(2)
+
+with col1:
+    age = st.number_input("Age", min_value=1, max_value=120, value=30)
+    sex = st.selectbox("Sex (0 = Female, 1 = Male)", [0, 1])
+    albumin = st.number_input("Albumin", min_value=0.0, value=3.5)
+    alkaline_phosphatase = st.number_input("Alkaline Phosphatase", min_value=0.0, value=200.0)
+    alanine_aminotransferase = st.number_input("Alanine Aminotransferase", min_value=0.0, value=30.0)
+    aspartate_aminotransferase = st.number_input("Aspartate Aminotransferase", min_value=0.0, value=30.0)
+
+with col2:
+    bilirubin = st.number_input("Bilirubin", min_value=0.0, value=1.0)
+    cholinesterase = st.number_input("Cholinesterase", min_value=0.0, value=6.0)
+    cholesterol = st.number_input("Cholesterol", min_value=0.0, value=200.0)
+    creatinina = st.number_input("Creatinine", min_value=0.0, value=1.0)
+    gamma_gt = st.number_input("Gamma Glutamyl Transferase", min_value=0.0, value=30.0)
+    protein = st.number_input("Protein", min_value=0.0, value=7.0)
+
+# ------------------------------------------------------
+features = np.array([[age, sex, albumin, alkaline_phosphatase,
+                      alanine_aminotransferase, aspartate_aminotransferase,
+                      bilirubin, cholinesterase, cholesterol, creatinina,
+                      gamma_gt, protein]])
+
+features_scaled = scaler.transform(features)
+predict_btn = st.button("🔍 Predict Stage", use_container_width=True)
+
+# ------------------------------------------------------
+# DISPLAY RESULT BEAUTIFULLY
+# ------------------------------------------------------
+if predict_btn:
+    pred_class = model.predict(features_scaled)[0]
+    stage = le.inverse_transform([pred_class])[0]
+
+    # Color-coded box
+    color_map = {
+        "no disease": "#27ae60",
+        "suspect disease": "#f1c40f",
+        "hepatitis": "#e67e22",
+        "fibrosis": "#d35400",
+        "cirrhosis": "#c0392b"
+    }
+
+    box_color = color_map.get(stage.lower(), "#3498db")
+
+    st.markdown(
+        f"""
+        <div class='prediction-box' style='background-color: {box_color}; color: white;'>
+            Predicted Stage: <b>{stage.upper()}</b>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+# ------------------------------------------------------
+# FOOTER
+# ------------------------------------------------------
+st.markdown(
+    "<div class='footer'>© 2025 Liver Disease Predictor | Powered by Machine Learning</div>",
+    unsafe_allow_html=True
+)
+
