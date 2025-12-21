@@ -28,7 +28,7 @@ def add_bg_from_url():
 add_bg_from_url()
 
 # -------------------- LOAD MODEL --------------------
-model = pickle.load(open("liver_model.pkl", "rb"))
+model = pickle.load(open("best_liver_model.pkl", "rb"))
 
 # Load scaler if used
 try:
@@ -111,6 +111,7 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
 
 
 
