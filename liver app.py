@@ -17,7 +17,7 @@ def add_bg_from_url():
         f"""
         <style>
         .stApp {{
-            background-image: url("https://i.imgur.com/7ZQZ5bU.png");
+            background-image: url("https://www.everydayhealth.com/digestive-health/liver-what-it-is-and-how-it-functions/");
             background-size: cover;
         }}
         </style>
@@ -111,6 +111,7 @@ st.markdown(
     """,
     unsafe_allow_html=True
 )
+
 
 
 
